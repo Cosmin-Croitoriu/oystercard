@@ -9,5 +9,5 @@ group :test do
 end
 
 group :development do
-  gem 'rspec'
+  # gem 'rspec'
 end
