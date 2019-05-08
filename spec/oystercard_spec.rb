@@ -21,4 +21,13 @@ describe Oystercard do
       expect { subject.top_up(amount) }.to raise_error "Top-up limit reached."
     end
   end
+
+  describe "#deduct" do
+    it "shoud remove a certain amount of money from balance" do
+      amount  = 5
+      balace = 10
+      expect(subject.deduct(amount)).to eq())
+    end
+  end
+
 end
