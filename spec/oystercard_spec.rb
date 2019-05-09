@@ -2,11 +2,12 @@ require 'oystercard'
 describe Oystercard do
   let(:location){double :location}
   let(:location2){double :location2}
+
   it "stores the journeys into a list" do
     subject.top_up(10)  
     subject.touch_in(location)
     subject.touch_out(location2)
-    expect(subject.journey_history).to eq({location => location2})
+    expect(subject.journey_history).to eq([{location => location2}])
   end
 
   it 'has a balance of zero' do
@@ -60,6 +61,7 @@ describe Oystercard do
 
     it 'should charge minimum fare when touching out' do
       subject.top_up(1)
+      subject.touch_in(location)
       expect {subject.touch_out(location2)}.to change{subject.balance}.by(-1)
     end
   end
@@ -72,6 +74,8 @@ describe Oystercard do
     end
 
     it 'should return false if not in journey' do
+      subject.top_up(10)
+      subject.touch_in(location)
       subject.touch_out(location2)
       expect(subject.in_journey?).to be false
     end

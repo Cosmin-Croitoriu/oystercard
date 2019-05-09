@@ -1,13 +1,13 @@
 class Oystercard
 
-  attr_reader :balance , :start_location, :journey_history
+ attr_reader :balance , :start_location, :journey_history
  CAPACITY = 90
  MINIMUM_FARE = 1
 
  def initialize
     @balance = 0
     @start_location = nil
-    @journey_history = {}
+    @journey_history = []
  end
 
  def top_up(money)
@@ -18,18 +18,20 @@ class Oystercard
  def touch_in(location)
     fail 'not enough funds (minimum fare £1)' if @balance < MINIMUM_FARE
     @start_location = location
-    @journey_history[location] = nil
+    @journey_history << {}
+    @journey_history.last[location] = nil
     
  end
 
  def touch_out(location2)
     @balance -= MINIMUM_FARE
-    @journey_history[@start_location] = location2
+    @journey_history.last[@start_location] = location2
+    @start_location = nil
  end
 
  def in_journey?
     @start_location != nil
-    end
+  end
 
  private
   def deduct(money)
