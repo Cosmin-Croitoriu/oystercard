@@ -1,49 +1,37 @@
 class Oystercard
-<<<<<<< HEAD
-  attr_accessor :balance
-  DEFAULT_VALUE = 0
-  MAX_LIMIT = 90
 
-  def initialize(balance= DEFAULT_VALUE)
-    @balance = balance
-  end
+  attr_reader :balance , :start_location, :journey_history
+ CAPACITY = 90
+ MINIMUM_FARE = 1
 
-  def top_up(amount)
-    raise "Top-up limit reached." if @balance + amount > MAX_LIMIT
-    @balance += amount
-  end
-=======
-
-  attr_reader :balance
-  CAPACITY = 90
-  MINIMUM_FARE = 1
-
-  def initialize
+ def initialize
     @balance = 0
-    @swipe = false
-    @location = []
-  end
+    @start_location = nil
+    @journey_history = {}
+ end
 
-  def top_up(money)
+ def top_up(money)
     fail 'Cannot input that amount! Maximum balance of $90 will be exceeded' if full? or @balance + money > CAPACITY
     @balance += money
-  end
+ end
 
-  def touch_in
-    fail 'not enough funds (minimum fare £1)' if @balance < MINIMUM_FARE 
-    @swipe = true
-  end
+ def touch_in(location)
+    fail 'not enough funds (minimum fare £1)' if @balance < MINIMUM_FARE
+    @start_location = location
+    @journey_history[location] = nil
+    
+ end
 
-  def touch_out
+ def touch_out(location2)
     @balance -= MINIMUM_FARE
-    @swipe = false
-  end
+    @journey_history[@start_location] = location2
+ end
 
-  def in_journey?
-    @swipe
-  end
+ def in_journey?
+    @start_location != nil
+    end
 
-  private
+ private
   def deduct(money)
     @balance -= money
   end
@@ -51,6 +39,4 @@ class Oystercard
   def full?
     @balance > CAPACITY
   end
-
->>>>>>> 54157055ea77e04701e286ba347222b383c8280c
 end
