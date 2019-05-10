@@ -1,6 +1,9 @@
 class Journey
-  def start(station)
-    @entry_station = station
+  attr_reader :entry_station
+  PENALTY_FARE = 6
+
+  def initialize(entry_station = nil)
+    @entry_station = entry_station
   end
 
   def finish(station)
@@ -12,7 +15,8 @@ class Journey
   end
 
   def fare
-    complete? ? 1 : 6
+    1 if complete?
+    PENALTY_FARE
   end
 
   private
