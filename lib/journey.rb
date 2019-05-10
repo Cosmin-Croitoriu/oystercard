@@ -1,23 +1,27 @@
 class Journey
-    attr_accessor :start_location 
-    attr_reader :journey_hash
+  def start(station)
+    @entry_station = station
+  end
 
-    def initialize(start_location = nil)
-      @start_location = start_location
-      @journey_hash = {}
-    end
+  def finish(station)
+    @exit_station = station
+  end
 
-    def in_journey?
-      !start_location.nil?
-    end
+  def complete?
+    started? && finished?
+  end
 
-    def finish(exit_station)
-        @exit_station = exit_station
-      @journey_hash[@start_location] = @exit_station
-    end
+  def fare
+    complete? ? 1 : 6
+  end
 
-    def complete?
-        journey_hash[start_location: @exit_station].nil?
-    end
+  private
 
+  def started?
+    @entry_station != nil
+  end
+
+  def finished?
+    @exit_station != nil
+  end
 end
